@@ -6,6 +6,7 @@ import re
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
+
 def initialize_df():
     '''Create the necessary dataframes for extracting features
     from the files.
@@ -52,6 +53,21 @@ def get_model(model_element):
                 features['model'] = item
                 break
 
+
+def get_price(price_element):
+    """Extracting price feature from file to features dictionary.
+    Args:
+        price (bs4.element.Tag): contain 'h5' tag with no css class
+    """
+    price = str(price_element.text)
+    for subitem in price.split():
+        if(subitem.isdigit()):
+            price = subitem
+            break
+
+    features['price'] = int(price)
+
+
 # Create dataframe to add the data collected
 data = pd.DataFrame()
 
@@ -66,3 +82,6 @@ for path in Path('data/').glob('*.txt'):
 
         # Extracting model value to features dictionary
         get_model(soup.find('h5', class_=None))
+
+        # Extracting price value to features dictionary
+        get_price(soup.find('h5', class_='post-price'))
