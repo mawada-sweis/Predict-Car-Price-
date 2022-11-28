@@ -36,3 +36,16 @@ def initialize_df():
         'ads_start_data': None,
         'ads_end_data': None,
         }
+
+
+# Create dataframe to add the data collected
+data = pd.DataFrame()
+
+for path in Path('data/').glob('*.txt'):
+    initialize_df()
+    with path.open(encoding='utf-8') as file_path:
+        # create BeautifulSoup object for file by html parser
+        soup = BeautifulSoup(file_path, "html.parser")
+
+        # Extracting name value to features dictionary
+        features['name'] = soup.find('h3', class_=None).text
