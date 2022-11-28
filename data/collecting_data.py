@@ -119,6 +119,25 @@ def get_insurance(insurance_element):
                 count += 1
 
 
+def get_additional(additional_element):
+    """Extracting additional feature from file to features dictionary.
+
+    Args:
+        additional_element (bs4.element.Tag): contain 'td' element with
+            css class 'list-additions'
+    """
+    additional_value = []
+    additional_element = additional_element.findAll('li')
+
+    for row in additional_element:
+        value = ''
+        value += row.text
+        additional_value.append(value)
+    additional_value = ','.join(map(str, additional_value))
+
+    features['additional_info'] = additional_value
+
+
 # Create dataframe to add the data collected
 data = pd.DataFrame()
 
@@ -143,3 +162,6 @@ for path in Path('data/').glob('*.txt'):
         # Extracting insurance values to features dictionary
         get_insurance(soup.find('div', class_='row').findAll('td',
                       attrs={'class': None, 'colspan': None}))
+
+        # Extracting additional value to features dictionary
+        get_additional(soup.find('td', class_='list-additions'))
