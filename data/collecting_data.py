@@ -11,7 +11,7 @@ def initialize_df():
     '''Create the necessary dataframes for extracting features
     from the files.
     '''
-    global features
+    global features, maping_description
 
     features = {
         'name': None,
@@ -37,7 +37,20 @@ def initialize_df():
         'ads_start_data': None,
         'ads_end_data': None,
         }
-
+    maping_description = {
+        "لون السيارة": 'color',
+        "نوع الوقود": 'fuel_type',
+        "أصل السيارة": 'origin_car',
+        "عداد السيارة": 'car_speedometer',
+        "أصحاب سابقون": 'ex_owners',
+        "رخصة السيارة": 'car_license',
+        "نوع الجير": 'lime_type',
+        "الزجاج": 'glass',
+        "قوة الماتور": 'motor_power',
+        "عدد الركاب": 'passengers',
+        "وسيلة الدفع": 'payment_method',
+        "معروضة": 'displayed'
+    }
 
 def get_model(model_element):
     """Extracting model year features from file to features dictionary.
@@ -68,6 +81,24 @@ def get_price(price_element):
     features['price'] = int(price)
 
 
+def get_description(description_element):
+    """Extracting description features from file to features dictionary.
+    it has 12 features: 'color', 'fuel_type', 'origin_car',
+    'car_license', 'lime_type','glass', 'motor_power', 'car_speedometer',
+    'passengers', 'payment_method','displayed', 'ex_owners',
+
+    Args:
+        description_element (bs4.element.Tag): contain 'table' element
+            with css class 'list_ads'
+    """
+
+    for arabic_feature in maping_description.keys():
+        description = description_element.find(text=arabic_feature)
+        features[maping_description[arabic_feature]] = \
+            None if description is None \
+            else description.next_element.get_text()
+
+
 # Create dataframe to add the data collected
 data = pd.DataFrame()
 
@@ -85,3 +116,6 @@ for path in Path('data/').glob('*.txt'):
 
         # Extracting price value to features dictionary
         get_price(soup.find('h5', class_='post-price'))
+
+        # Extracting description values to features dictionary
+        get_description(soup.find('table', class_='list_ads'))
