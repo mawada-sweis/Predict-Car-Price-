@@ -187,3 +187,12 @@ for path in Path('data/').glob('*.txt'):
 
         # Extracting post information values to features dictionary
         get_post_info(soup.findAll('table', class_='create_post')[2])
+
+        # Convert the dictionary to series
+        sample = pd.Series(features)
+
+        # Concating the sample series to the dataframe
+        data = pd.concat((data, sample), axis=1, ignore_index=True)
+
+# Transpose dataframe
+data = data.T
