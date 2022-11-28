@@ -11,7 +11,7 @@ def initialize_df():
     '''Create the necessary dataframes for extracting features
     from the files.
     '''
-    global features, maping_description
+    global features, maping_description, insurance_features
 
     features = {
         'name': None,
@@ -51,6 +51,8 @@ def initialize_df():
         "وسيلة الدفع": 'payment_method',
         "معروضة": 'displayed'
     }
+    insurance_features = ['insurance_third', 'supplementary_body', 'total']
+
 
 def get_model(model_element):
     """Extracting model year features from file to features dictionary.
@@ -99,6 +101,24 @@ def get_description(description_element):
             else description.next_element.get_text()
 
 
+def get_insurance(insurance_element):
+    """Extracting insurance features from file to features dictionary.
+    it has 3 features: 'insurance_third','supplementary_body' and 'total'
+
+    Args:
+        insurance_element (bs4.element.ResultSet): contain all 'td' element
+            with no css class nor css colspan from the first div element
+            has css class 'row'
+    """
+    count = 0
+    for row in insurance_element:
+        subitem = str(row.text).split()
+        for item in subitem:
+            if(item.isdigit()):
+                features[insurance_features[count]] = item
+                count += 1
+
+
 # Create dataframe to add the data collected
 data = pd.DataFrame()
 
@@ -119,3 +139,7 @@ for path in Path('data/').glob('*.txt'):
 
         # Extracting description values to features dictionary
         get_description(soup.find('table', class_='list_ads'))
+
+        # Extracting insurance values to features dictionary
+        get_insurance(soup.find('div', class_='row').findAll('td',
+                      attrs={'class': None, 'colspan': None}))
