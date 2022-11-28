@@ -38,6 +38,20 @@ def initialize_df():
         }
 
 
+def get_model(model_element):
+    """Extracting model year features from file to features dictionary.
+
+    Args:
+        model_element (bs4.element.Tag): contains first 'h5' element
+            with no css class.
+    """
+    for row in model_element:
+        subitem = str(row.text).split()
+        for item in subitem:
+            if(item.isdigit()):
+                features['model'] = item
+                break
+
 # Create dataframe to add the data collected
 data = pd.DataFrame()
 
@@ -49,3 +63,6 @@ for path in Path('data/').glob('*.txt'):
 
         # Extracting name value to features dictionary
         features['name'] = soup.find('h3', class_=None).text
+
+        # Extracting model value to features dictionary
+        get_model(soup.find('h5', class_=None))
