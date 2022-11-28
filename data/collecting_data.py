@@ -11,7 +11,7 @@ def initialize_df():
     '''Create the necessary dataframes for extracting features
     from the files.
     '''
-    global features, maping_description, insurance_features
+    global features, maping_description, insurance_features, ads_features
 
     features = {
         'name': None,
@@ -52,6 +52,7 @@ def initialize_df():
         "معروضة": 'displayed'
     }
     insurance_features = ['insurance_third', 'supplementary_body', 'total']
+    ads_features = ['ads_status', 'ads_start_data', 'ads_end_data']
 
 
 def get_model(model_element):
@@ -138,6 +139,24 @@ def get_additional(additional_element):
     features['additional_info'] = additional_value
 
 
+def get_post_info(post_info_element):
+    """Extracting post information features from file to features dictionary.
+    it has 3 features: 'ads_status', 'ads_start_data' and 'ads_end_data'
+
+    Args:
+        post_info_element (bs4.element.ResultSet): contains the third 'table'
+            element with css class 'create_post'
+    """
+    post_info_element = str(post_info_element.text).split()
+    date_with_str = [post_info_element[5], post_info_element[8]]
+
+    features['ads_status'] = post_info_element[2]
+
+    for index in range(len(date_with_str)):
+        match = re.search(r'\d{4}-\d{2}-\d{2}', date_with_str[index])
+        features[ads_features[index+1]] = match.group()
+
+
 # Create dataframe to add the data collected
 data = pd.DataFrame()
 
@@ -165,3 +184,6 @@ for path in Path('data/').glob('*.txt'):
 
         # Extracting additional value to features dictionary
         get_additional(soup.find('td', class_='list-additions'))
+
+        # Extracting post information values to features dictionary
+        get_post_info(soup.findAll('table', class_='create_post')[2])
