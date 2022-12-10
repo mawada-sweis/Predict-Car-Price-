@@ -1,0 +1,14 @@
+linear:{'model': LinearRegression(), 'Test_Score': 0.5219344833114968, 'Train_Score': 0.5803389270598612}
+ridge1:{'model': Ridge(), 'degree': 1, 'Test_Score': 0.517137641210715, 'Train_Score': 0.5763069237170602}
+lasso1:{'model': Lasso(), 'degree': 1, 'Test_Score': -29.24276595503748, 'Train_Score': -29.5683424061693}
+ploy_2:{'model': LinearRegression(), 'degree': 2, 'Test_Score': -0.000563083332949077, 'Train_Score': 0.831968200091987}
+ridge2:{'model': Ridge(), 'degree': 2, 'Test_Score': 0.5958240991395919, 'Train_Score': 0.8108586583310667}
+lasso2:{'model': Lasso(), 'degree': 2, 'Test_Score': 0.01452145435952501, 'Train_Score': 0.032234728231321896}
+ridge3:{'model': Ridge(), 'degree': 3, 'Test_Score': 0.004128879257846441, 'Train_Score': 0.9446404514450534}
+lasso3:{'model': Lasso(), 'degree': 3, 'Test_Score': 0.1667092459893732, 'Train_Score': 0.28464474632774517}
+ploy_3:{'model': LinearRegression(), 'degree': 3, 'Test_Score': -0.0008998636839532281, 'Train_Score': 0.9741023503544518}
+knn:{'model': KNeighborsRegressor(n_neighbors=3), 'Test_Score': 0.38157019444321716, 'Train_Score': 0.7253226352356124}
+D_tree:{'model': DecisionTreeRegressor(random_state=0), 'Test_Score': 0.5784165679102706, 'Train_Score': 0.9999813098066799}
+Test Size:0.3
+Metric Evaluation:r^2 score
+Data Shape Used:(6161, 96)
