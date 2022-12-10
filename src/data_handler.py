@@ -20,4 +20,3 @@ class Sample:
     car_speedometer: float = None
     ex_owners: str = None
     price: float = None
-    ads_start_data: str = None
