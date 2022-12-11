@@ -29,13 +29,9 @@ async def _get_sample(sample: Sample) -> dict:
     Returns:
         dict: response information contains the sample as string type.
     """
-    features_data:str = str(vars(sample))
-    # save the sample in a ancoding file
-    with open('sample.txt','w', encoding='utf-8') as f:
-        f.write(features_data)
     response:dict = {
         "message": HTTPStatus.OK.phrase,
         "status-code": HTTPStatus.OK,
-        "values": features_data
+        "price": sample.price
     }
     return response
