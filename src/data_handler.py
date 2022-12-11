@@ -28,10 +28,8 @@ class Sample:
     ads_duration:int
     # additional_info: str = field(default="No additional")
     passengers: str = field(repr=False, default= str(features_metadata['passengers'].get('Handled_NaN')))
-    # drive: str = None
     car_speedometer: float = field(default=features_metadata['car_speedometer'].get('default_value'))
-    ex_owners: str = None
-    price: float = None
+    ex_owners: str = field(default=features_metadata['ex_owners'].get('default_value'))
     
         
     def __post_init__(self):
