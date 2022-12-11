@@ -28,13 +28,14 @@ def modify_passengers(passengers:pd.Series) -> pd.Series:
     
     for row in passengers:
         sum_digit:int = 0
-        if pd.isna(row):
+        row = str(row)
+        for char in row.split('+'):
+            if char.isdigit():
+                int_char = int(char)
+                sum_digit = sum_digit + int_char
+        if sum_digit == 0 :
             passengers_modified.append(np.NaN)
-        else:
-            for char in row.split():
-                if char.isdigit():
-                    int_char = int(char)
-                    sum_digit = sum_digit + int_char
+        else:  
             passengers_modified.append(sum_digit)
     return passengers_modified
 
