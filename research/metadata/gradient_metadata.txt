@@ -1,0 +1,13 @@
+{
+    "Data Shape Used": [
+        6161,
+        96
+    ],
+    "Model Params": {
+        "learning_rate": 0.01,
+        "max_depth": 5,
+        "n_estimators": 1000
+    },
+    "Train Score": 0.8163672678623509,
+    "Test Score": 0.7863167904961542
+}

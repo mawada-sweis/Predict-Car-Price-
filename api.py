@@ -19,9 +19,9 @@ def _health_check() -> dict:
 
 
 @app.post("/predict_car_price/")
-async def _get_sample(sample: Sample) -> dict:
-    """Receive a sample as dataclass and convert it to dictionary.
-        ** The sample saved in a file in this commit. **
+def _get_sample(sample: Sample) -> dict:
+    """Receive a sample as dataclass, handle the sample
+    then display the price as integer type.
 
     Args:
         sample (Sample): contains the features value.
@@ -29,9 +29,9 @@ async def _get_sample(sample: Sample) -> dict:
     Returns:
         dict: response information contains the sample as string type.
     """
-    response:dict = {
+    response = {
         "message": HTTPStatus.OK.phrase,
         "status-code": HTTPStatus.OK,
-        "price": sample.price
+        "price": int(sample.price[0])
     }
     return response
